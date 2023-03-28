@@ -33,8 +33,7 @@ class Paths
 
 	public static var excludes:Array<String> =
 	[
-		'assets/music/freakyMenu.$SOUND_EXT',
-		'assets/music/breakfast.$SOUND_EXT',
+		'assets/anywhere/file.EXT',
 	];
 
 	public static var modFolders:Array<String> = [];
@@ -75,7 +74,6 @@ class Paths
 		}
 
 		garbageAssets = [];
-		OpenFlAssets.cache.clear("songs");
 	}
 
 	public static function clearTrashMemory()
@@ -224,22 +222,8 @@ class Paths
 			{
 				var bitmap:BitmapData = BitmapData.fromFile(path);
 				var newGraphic:FlxGraphic;
-				if (FunkySettings.GPURender)
-				{
-					var texture = FlxG.stage.context3D.createTexture(bitmap.width, bitmap.height, BGRA, true, 0);
-					texture.uploadFromBitmapData(bitmap);
-					customTexturesLoaded.set(key, texture);
-					bitmap.dispose();
-					bitmap.disposeImage();
-					bitmap = null;
-					newGraphic = FlxGraphic.fromBitmapData(BitmapData.fromTexture(texture), false, key, false);
-					newGraphic.persist = true;
-				}
-				else
-				{
-					newGraphic = FlxGraphic.fromBitmapData(bitmap, false, key, false);
-					newGraphic.persist = true;
-				}
+				newGraphic = FlxGraphic.fromBitmapData(bitmap, false, key, false);
+				newGraphic.persist = true;
 				customImagesLoaded.set(key, newGraphic);
 
 				if (!garbageAssets.contains(path))
@@ -278,11 +262,6 @@ class Paths
 	inline static public function modsSounds(key:String)
 	{
 		return mods('sounds/' + key + '.' + SOUND_EXT);
-	}
-
-	inline static public function modsSongs(key:String)
-	{
-		return mods('songs/' + key + '.' + SOUND_EXT);
 	}
 
 	inline static public function modsImages(key:String)
